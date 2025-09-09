@@ -18,6 +18,7 @@ body {
        display: flex;
        padding: 10px;
        margin-bottom: 20px;
+       border-radius: 10px;
    }
    
    h1 {
@@ -49,6 +50,7 @@ body {
        background: rgb(236, 230, 212);
        display: flex;
        margin-top: 20px;
+       border-radius: 10px;
    }
    
    .sidebar {
@@ -75,3 +77,35 @@ body {
    h2, h3 {
        margin: 0px;
    }
+
+   img {
+    border-radius: 10px;
+    border: 5px solid rgb(163, 184, 144);
+   }
+
+/* Portfolio styles */
+.content h1 {
+  color: black;
+}
+
+#portfolio {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#portfolio li {
+  background: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+#portfolio li:hover {
+  background: #eee;
+}
+
+#portfolio a {
+  text-decoration: none;
+  color: #454545;
+}
+
