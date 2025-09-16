@@ -31,7 +31,6 @@ $(function () {
 
 
     // Create Platforms
-    createPlatform(100, 0, 10, 600);
     function createTrench(xStart, yStart) {
       const PLATFORM_WIDTH = 100;
       const PLATFORM_HEIGHT = 10;
@@ -54,15 +53,22 @@ $(function () {
       createTrench(100 + i * 200, 600);
     }
 
-    createPlatform(1100, 100, 10, 400);
+    createPlatform(100, 0, 10, 600); // left wall blocking center zone
 
+    ///// vertical platforming shaft /////
+    createPlatform(1100, 100, 10, 400); // left wall
+    createPlatform(1400, 100, 10, 400); // right wall
+
+    // right platforms
     createPlatform(1300, 625, 100, 10);
     createPlatform(1300, 425, 100, 10);
     createPlatform(1300, 225, 100, 10);
 
+    // left platforms
     createPlatform(1100, 525, 100, 10);
     createPlatform(1100, 325, 100, 10);
     createPlatform(1100, 125, 100, 10);
+    //////////////////////////////////////
 
     // TODO 3 - Create Collectables
     for (let i = 0; i < 5; i++) {
