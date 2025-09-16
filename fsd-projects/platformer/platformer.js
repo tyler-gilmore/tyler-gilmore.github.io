@@ -35,7 +35,6 @@ $(function () {
     function createTrench(xStart, yStart) {
       const PLATFORM_WIDTH = 100;
       const PLATFORM_HEIGHT = 10;
-      const TRENCH_HEIGHT = 50;
       let x = xStart;
       let y = yStart;
 
@@ -57,13 +56,13 @@ $(function () {
 
     createPlatform(1100, 100, 10, 400);
 
-    createPlatform(1300, 600, 100, 10);
-    createPlatform(1300, 400, 100, 10);
-    createPlatform(1300, 200, 100, 10);
+    createPlatform(1300, 625, 100, 10);
+    createPlatform(1300, 425, 100, 10);
+    createPlatform(1300, 225, 100, 10);
 
-    createPlatform(1100, 500, 100, 10);
-    createPlatform(1100, 300, 100, 10);
-    createPlatform(1100, 100, 100, 10);
+    createPlatform(1100, 525, 100, 10);
+    createPlatform(1100, 325, 100, 10);
+    createPlatform(1100, 125, 100, 10);
 
     // TODO 3 - Create Collectables
     for (let i = 0; i < 5; i++) {
@@ -73,13 +72,10 @@ $(function () {
       createCollectable('database', 140 + i * 200, 510);
     }
     
-
-
-    
     // TODO 4 - Create Cannons
     createCannon('right', 750, 2000);
     createCannon('top', 1310, 2000);
-    createCannon('left', 375, 2000);
+    createCannon('left', 380, 2000);
 
     
     
