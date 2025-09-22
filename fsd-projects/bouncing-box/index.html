@@ -8,7 +8,7 @@
       .box {
         width: 70px;
         height: 70px;
-        background-color: teal;
+        background-color: rgb(51, 255, 51);
         font-size: 300%;
         text-align: center;
         user-select: none;
@@ -21,12 +21,20 @@
 
       .board {
         height: 100vh;
+        background-color: black;
+      }
+
+      #misclick-label {
+        font-size: 20px;
+        font-family: monospace;
+        color: rgb(51, 255, 51);
       }
     </style>
     <!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
   </head>
 
   <body class="board">
+    <p id="misclick-label">Number of misclicks: 0</p>
     <!-- HTML for the box -->
     <div class="box">?</div>
 
@@ -42,21 +50,36 @@
         var box = jQuery(".box"); // reference to the HTML .box element
         var board = jQuery(".board"); // reference to the HTML .board element
         var boardWidth = board.width(); // the maximum X-Coordinate of the screen
+        var boardHeight = board.height(); // the maximum Y-Coordinate of the screen
 
         // update the boardWidth variable when the window is resized
         jQuery(window).on("resize", function () {
           boardWidth = board.width();
+          boardHeight = board.height();
         });
 
         // Every 50 milliseconds, call the update Function (see below)
-        setInterval(update, 50);
+        let interval = setInterval(update, 50);
 
-        // Every time the box is clicked, call the handleBoxClick Function (see below)
-        box.on("click", handleBoxClick);
+        // Handles both events when box or board is clicked
+        var boxClicked = false; // to check if box if specifically clicked
+        box.on("click", function() {
+          boxClicked = true;
+        });
+        // Calls handleBoardClick() only if box hasn't been clicked.
+        board.on("click", function() {
+          if (boxClicked) {
+            handleBoxClick();
+          } else {
+            handleBoardClick();
+          }
+          boxClicked = false;
+        })
 
         // moves the Box to a new position on the screen along the X-Axis
-        function moveBoxTo(newPositionX) {
+        function moveBoxTo(newPositionX, newPositionY) {
           box.css("left", newPositionX);
+          box.css("top", newPositionY);
         }
 
         // changes the text displayed on the Box
@@ -69,8 +92,33 @@
         //////////////////////////////////////////////////////////////////
 
         // TODO 2 - Variable declarations
+        let positionX = Math.random() * boardWidth;
+        let positionY = Math.random() * boardHeight;
 
+        let points = 0;
+        changeBoxText(points);
 
+        const BASE_SPEED = 10;
+        let speedX = BASE_SPEED;
+        let speedY = BASE_SPEED;
+
+        // Determine direction of new speed
+        let randNumX = Math.random() * 100;
+        let randNumY = Math.random() * 100;
+        if (randNumX < 50) {
+          speedX *= -1;
+        }
+        if (randNumY < 50) {
+          speedY *= -1;
+        }
+
+        var numberOfMisclicks = 0;
+
+        const DEFAULT_BOX_SIZE = 70;
+        let boxSize = DEFAULT_BOX_SIZE;
+
+        const DEFAULT_BOX_TEXT_SIZE = 300;
+        let boxTextSize = DEFAULT_BOX_TEXT_SIZE ;
 
 
 
@@ -80,10 +128,17 @@
          * If the box drifts off the screen, turn it around!
          */
         function update() {
+          moveBoxTo(positionX, positionY);
+          positionX += speedX;
+          positionY += speedY;
 
-        
 
-          
+          if (positionX > boardWidth || positionX < -50) {
+            speedX *= -1;
+          }
+          if (positionY > boardHeight || positionY < -50) {
+            speedY *= -1;
+          }
         }
 
         /**
@@ -94,14 +149,48 @@
          * - move the box to the left side of the screen.
          */
         function handleBoxClick() {
+          positionX = Math.random() * boardWidth;
+          positionY = Math.random() * boardHeight;
+          points++;
+          changeBoxText(points);
 
+          if (points < 3) {
+            speedX = 3 * points + BASE_SPEED;
+            speedY = 3 * points + BASE_SPEED;
+            console.log('test');
+          } else {
+            boxSize *= 0.8;
+            boxTextSize *= 0.8;
+            $(".box").width(boxSize);
+            $(".box").height(boxSize);
+            $(".box").css("font-size", `${boxTextSize}%`);
+          }
 
-
-
+          // Determine direction of new speed
+          let randNumX = Math.random() * 100;
+          let randNumY = Math.random() * 100;
+          if (randNumX < 50) {
+            speedX *= -1;
+          }
+          if (randNumY < 50) {
+            speedY *= -1;
+          }
         }
 
+        function handleBoardClick() {
+          let misclickLabel = jQuery("#misclick-label");
+          numberOfMisclicks++;
+          misclickLabel.text(`Number of misclicks: ${numberOfMisclicks}`);
 
-        
+          if (numberOfMisclicks >= 10) {
+            endGame();
+          }
+        }
+
+        function endGame() {
+          clearInterval(interval);
+        }
+
       })();
     </script>
   </body>
