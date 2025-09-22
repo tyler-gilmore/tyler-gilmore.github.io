@@ -62,7 +62,7 @@
         let interval = setInterval(update, 50);
 
         // Handles both events when box or board is clicked
-        var boxClicked = false; // to check if box if specifically clicked
+        let boxClicked = false; // to check if box if specifically clicked
         box.on("click", function() {
           boxClicked = true;
         });
@@ -112,7 +112,7 @@
           speedY *= -1;
         }
 
-        var numberOfMisclicks = 0;
+        let numberOfMisclicks = 0;
 
         const DEFAULT_BOX_SIZE = 70;
         let boxSize = DEFAULT_BOX_SIZE;
@@ -161,9 +161,9 @@
           } else {
             boxSize *= 0.8;
             boxTextSize *= 0.8;
-            $(".box").width(boxSize);
-            $(".box").height(boxSize);
-            $(".box").css("font-size", `${boxTextSize}%`);
+            box.width(boxSize);
+            box.height(boxSize);
+            box.css("font-size", `${boxTextSize}%`);
           }
 
           // Determine direction of new speed
