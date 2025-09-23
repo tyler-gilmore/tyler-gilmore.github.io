@@ -10,6 +10,7 @@
         height: 70px;
         background-color: rgb(51, 255, 51);
         font-size: 300%;
+        font-family: monospace;
         text-align: center;
         user-select: none;
         display: block;
@@ -21,7 +22,7 @@
 
       .board {
         height: 100vh;
-        background-color: black;
+        background-color: rgb(0, 0, 0);
       }
 
       #misclick-label {
@@ -92,6 +93,19 @@
         //////////////////////////////////////////////////////////////////
 
         // TODO 2 - Variable declarations
+        const ColorSchemes = {
+          currentColorIndex: 0,
+          backgroundColors: [
+            'rgb(0, 0, 0)',
+            '#9DBEC6',
+            '#C66650'
+          ],
+          accentColors: [
+            'rgb(51, 255, 51)',
+            '#FEF7C7',
+            '#FEC385'
+          ]
+        }
         let positionX = Math.random() * boardWidth;
         let positionY = Math.random() * boardHeight;
 
@@ -175,6 +189,8 @@
           if (randNumY < 50) {
             speedY *= -1;
           }
+
+          changeColorScheme();
         }
 
         function handleBoardClick() {
@@ -185,6 +201,24 @@
           if (numberOfMisclicks >= 10) {
             endGame();
           }
+        }
+
+        function changeColorScheme() {
+          let backgroundColors = ColorSchemes.backgroundColors;
+          let accentColors = ColorSchemes.accentColors;
+          let currentColorIndex = ColorSchemes.currentColorIndex;
+
+          let newColorIndex;
+          do {
+            newColorIndex = Math.floor(Math.random() * backgroundColors.length);
+          } while (newColorIndex === currentColorIndex);
+          ColorSchemes.currentColorIndex = newColorIndex;
+
+          box.css('background-color', accentColors[newColorIndex]);
+
+          board.css('background-color', backgroundColors[newColorIndex]);
+
+          $('#misclick-label').css('color', accentColors[newColorIndex]);
         }
 
         function endGame() {
