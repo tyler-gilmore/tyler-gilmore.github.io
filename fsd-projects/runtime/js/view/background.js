@@ -33,8 +33,10 @@ var background = function (window) {
         let moon;
         let grass;
         let buildings = [];
+        let windows = [];
 
         const GRASS_Y_OFFSET = 50;
+        const buildingWidth = 75;
       
       
         // called at the start of game and whenever the page is resized
@@ -73,11 +75,25 @@ var background = function (window) {
             const numberOfBuildings = 15;
             for (let i = 0; i < numberOfBuildings; i++) {
                 const buildingHeight = Math.random() * 200 + 100;
-                const building = draw.rect(75, buildingHeight, "DarkGray", "Black", 1);
+                const building = draw.rect(buildingWidth, buildingHeight, "DarkGray", "Black", 1);
                 building.x = canvasWidth / (numberOfBuildings - 1) * i;
                 building.y = groundY - 20 - buildingHeight - (Math.random() * (GRASS_Y_OFFSET - 20));
                 background.addChild(building);
                 buildings.push(building);
+                
+                const numRows = 10;
+                const numColumns = 3;
+                const rowHeight = buildingHeight / numRows;
+                const columnWidth = buildingWidth / numColumns;
+                for (let row = 0; row < numRows; row++) {
+                    for (let column = 0; column < numColumns; column++) {
+                        const window = draw.rect(columnWidth / 2, rowHeight / 2, "Yellow", "Black", 1);
+                        window.x = (building.x + columnWidth / 4) + columnWidth * column;
+                        window.y = (building.y + rowHeight / 4) + rowHeight * row;
+                        background.addChild(window);
+                        windows.push(window);
+                    }
+                }
             }
             
             // TODO 3: Part 1 - Add a tree
@@ -106,9 +122,15 @@ var background = function (window) {
             // TODO 4: Part 2 - Parallax
             for (let building of buildings) {
                 building.x -= 0.1;
-                if (building.x < -building.width) {
-                    building.x = canvasWidth + building.width;
+                if (building.x < -buildingWidth) {
+                    building.x = canvasWidth + buildingWidth;
                 } 
+            }
+            for (let window of windows) {
+                window.x -= 0.1;
+                if (window.x < -buildingWidth) {
+                    window.x = canvasWidth + buildingWidth;
+                }
             }
 
         } // end of update function - DO NOT DELETE
